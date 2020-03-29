@@ -36,4 +36,6 @@ class UsersController extends Controller
         session()->flash('success','欢迎，开始自己的laravel旅程');
         return redirect()->route('users.show',[$user]);
     }
+
+
 }
