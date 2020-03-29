@@ -21,4 +21,6 @@ Route::get('/about','StaticPagesController@about')->name('about');
 
 Route::get('signup','UsersController@create')->name('signup'); #路由第一个参数带不带左斜杠都一样
 
+Route::resource('users', 'UsersController');
+
 
