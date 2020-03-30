@@ -7,6 +7,12 @@ use Auth;
 
 class SessionsController extends Controller
 {
+    public function  __construct()
+    {
+        $this->middleware('guest',[
+            'only'=>['create']
+        ]);
+    }
     //
     public function create()
     {
@@ -15,13 +21,14 @@ class SessionsController extends Controller
     public function store(Request $request)
     {
         $credentials = $this->validate($request,[
-            'email'=>'required|email|max:25',
+            'email'=>'required|email|max:255',
             'password'=>'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials,$request->has('remember'))) {
             session()->flash('success','Welcome back!');
-            return redirect()->route('users.show',[Auth::user()]);
+            $fallback = route('users.show',Auth::user());
+            return redirect()->intended($fallback);
         }
         else
         {
