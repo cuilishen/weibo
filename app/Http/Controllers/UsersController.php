@@ -11,7 +11,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth',[
-            'except' => ['show','create','store']
+            'except' => ['show','create','store','index']
         ]);
 
         $this->middleware('guest',[
@@ -73,5 +73,12 @@ class UsersController extends Controller
         return redirect()->route('users.show',$user->id);
     }
 
+
+    public function index()
+    {
+        //$users = User::all();
+        $users = User::paginate(5);
+        return view('users.index',compact('users'));
+    }
 
 }
